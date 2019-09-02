@@ -1,0 +1,15 @@
+<h3 class="content-title">Project Playlist</h3>
+
+<ul class="playlist-list">
+  <li class="flex" *ngFor="let media of task.media" [ngClass]="{'current-media': media.title === currMedia.title}">
+    <button mat-icon-button class="control-btn" (click)="onTogglePlay(media)">
+      <!--<img class="image" src="assets/images/avatar.png" alt="play-button" *ngIf="media.title !== currMedia.title">-->
+      <mat-icon>{{ media.title !== currMedia.title || player.paused ? 'play_arrow' : 'pause' }}</mat-icon>
+    </button>
+    <!--<div class="media-avatar"><img src="assets/images/play.png" alt="play-button"></div>-->
+    <div class="media-info">
+      <h5 class="media-title" (click)="onTogglePlay(media)">{{ media.title }}</h5>
+      <span class="media-time">1 min</span>
+    </div>
+  </li>
+</ul>

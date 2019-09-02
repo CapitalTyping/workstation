@@ -1,0 +1,41 @@
+<div class="f-c-c">
+
+  <!-- INPUT NAME -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Speaker name" maxlength="100" [(ngModel)]="currSpeaker.title" (keyup)="onKeyUp($event)">
+    <mat-hint align="end">{{ currSpeaker.title.length }} / 100</mat-hint>
+    <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="currSpeaker.title" (click)="currSpeaker.title = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- CONTROL -->
+  <ng-container *ngIf="currSpeaker.id">
+    <button class="speaker-control-btn" mat-raised-button (click)="applyChanges()">
+      <mat-icon>done</mat-icon>
+    </button>
+    <button class="speaker-control-btn" mat-raised-button (click)="removeSpeaker()">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+  </ng-container>
+  <button class="speaker-control-btn" mat-raised-button (click)="addCurrentSpeaker()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button class="speaker-control-btn" mat-raised-button (click)="currSpeaker = resetSpeaker()" *ngIf="currSpeaker.title || currSpeaker.id">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <!-- TIME CODE FORMAT -->
+  <app-time-code-format></app-time-code-format>
+</div>
+
+  <!-- EXISTED SPEAKERS -->
+<mat-action-list>
+  <button mat-button
+          *ngFor="let speaker of existedSpeakers | filter:['title']:currSpeaker.title"
+          (click)="onSelectSpeaker(speaker)">
+    {{ speaker.title }}
+    <mat-icon (click)="renameEachSpeaker(speaker, $event)">done_all</mat-icon>
+    <mat-icon (click)="editSpeaker(speaker, $event)">edit</mat-icon>
+  </button>
+</mat-action-list>

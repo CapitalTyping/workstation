@@ -1,0 +1,24 @@
+<div class="content-wrapper" [ngClass]="{'sidenav-active': acts.isSidenavActive}">
+
+  <!-- ASIDE NAVIGATION -->
+  <!--<app-side-nav-->
+      <!--[isSidenavActive]="acts.isSidenavActive"-->
+      <!--(emitToggleSideNav)="onToggleSidenav($event)"-->
+      <!--(emitSending)="acts.isSending = $event"-->
+  <!--&gt;</app-side-nav>-->
+
+  <app-menu></app-menu>
+
+  <main>
+    <!-- TABS -->
+    <app-tabs></app-tabs>
+
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
+
+<app-audio-player></app-audio-player>
+
+
+<app-waiting *ngIf="acts.isSending" fullscreen="true" message="Sending . . ."></app-waiting>

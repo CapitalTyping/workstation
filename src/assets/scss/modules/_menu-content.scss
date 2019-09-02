@@ -1,0 +1,16 @@
+@import '../../../common';
+
+// common
+$content-padding-left: 1.5em;
+
+.content-title {
+  margin: 1.5em 0 2em 0;
+  padding-left: $content-padding-left;
+  font-size: 1.4rem;
+  color: $base-text-title-color;
+  font-weight: 500;
+}
+
+ul {
+  @extend %listreset
+}

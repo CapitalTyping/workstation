@@ -1,0 +1,84 @@
+//fix duplicate and wrong position on chunk error
+.cdk-global-overlay-wrapper + .cdk-global-overlay-wrapper {
+  .i-snackbar {
+    display: none;
+  }
+}
+
+.cdk-overlay-pane {
+  bottom: 0;
+  right: 0;
+
+  .mat-snack-bar-container {
+    min-height: 0;
+    padding: 0;
+    min-width: 280px;
+  }
+  // end fix
+
+  .i-snackbar {
+    display: block;
+    border-radius: 5px;
+    color: #000000;
+    background: #ffffff;
+
+    .snackbar-block {
+      position: relative;
+      padding: 14px 16px;
+
+      .snackbar-title {
+        margin-top: 0;
+      }
+
+      .snackbar-message {
+        margin: 0;
+      }
+
+      .snackbar-close-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 10px 10px 15px 15px;
+        outline: none;
+        border: none;
+        transition: opacity 0.3s ease-in-out;
+        background: transparent;
+
+        &:hover {
+          opacity: .6;
+        }
+      }
+    }
+
+    // TYPES ----------------------------
+    &.i-snackbar-success {
+      background: $light-green;
+      color: #ffffff;
+      box-shadow: 0 5px 6px transparentize($light-green, .42);
+
+      .snackbar-title {
+        color: #ffffff;
+      }
+    }
+
+    &.i-snackbar-error {
+      background: $dark-red;
+      color: #ffffff;
+      box-shadow: 0 5px 6px transparentize($dark-red, .42);
+
+      .snackbar-title {
+        color: #ffffff;
+      }
+    }
+
+    &.i-snackbar-warning {
+      background: $yellow;
+      color: #ffffff;
+      box-shadow: 0 5px 6px transparentize($yellow, .42);
+
+      .snackbar-title {
+        color: #ffffff;
+      }
+    }
+  }
+}

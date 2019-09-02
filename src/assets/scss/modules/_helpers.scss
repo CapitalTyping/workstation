@@ -1,0 +1,128 @@
+html {
+    font-size: 10px; // 1rem === 10px
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+p {
+    &:empty {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.m-l-auto {
+    margin-left: auto !important;
+}
+
+.m-r-auto {
+    margin-right: auto !important;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    .lt-ie9 & {
+        zoom: 1;
+    }
+    &.media-object {
+        max-width: inherit;
+    }
+    &.pull-right {
+        margin-bottom: $spacer * 2;
+        margin-left: $spacer * 2;
+    }
+    &.pull-left {
+        margin-right: $spacer * 2;
+        margin-bottom: $spacer * 2;
+    }
+    &.center-block {
+        margin-bottom: $spacer * 2;
+    }
+    &.svg {
+        transition: opacity $trsd;
+        opacity: 0;
+        &.replaced-svg {
+            opacity: 1;
+        }
+    }
+}
+
+// list reset
+%listreset {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+// clearfix
+%clearfix {
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+.clearfix {
+    @extend %clearfix;
+}
+
+
+// transition
+%transition {
+    transition: all 0.3s ease-in-out;
+}
+
+// justify nav
+%justify {
+    text-align: justify;
+    font-size: 1px;
+    line-height: 0px;
+    > * {
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        font-size: $font-size-base;
+        line-height: $line-height-base;
+    }
+    &:after {
+        content: '';
+        width: 100%;
+        display: inline-block;
+        vertical-align: top;
+    }
+}
+
+
+
+/// * Helper class to truncate and add ellipsis to a string too long for it to fit
+/// * on a single line.
+/// * 1. Prevent content from wrapping, forcing it on a single line.
+/// * 2. Add ellipsis at the end of the line.
+
+.ellipsis {
+    white-space: nowrap; /* 1 */
+    text-overflow: ellipsis; /* 2 */
+    overflow: hidden;
+}
+
+// FLEX
+.flex {
+  display: flex;
+}
+
+.f-c-c {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.f-c-spb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

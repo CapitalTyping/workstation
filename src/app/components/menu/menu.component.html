@@ -1,0 +1,121 @@
+<nav class="sidenav" [ngClass]="{'nav-active': acts.isNavActive}">
+
+  <div class="logo-wrapp on-init">
+    <div class="logo "><img src="assets/images/logo.png" alt="logo"></div>
+  </div>
+
+  <!--LOGO-->
+  <div class="logo-wrapp on-init-inactive">
+    <div class="logo  logo-title  "><img src="assets/images/logo_title.png" alt="logo"></div>
+  </div>
+
+  <ul>
+    <!-- EXPORT -->
+    <li>
+      <div class="accordion-wrapp">
+        <button mat-button class="btn-accordion btn-menu"
+                (click)="onToggleAccordion('isAccord1Active')">
+          <i class="icon flaticon-download"></i>
+          <span class="btn-title">Export</span>
+          <mat-icon [ngClass]="{'rotate-90deg': acts.isAccord1Active}">chevron_right</mat-icon>
+        </button>
+        <ul class="accordion-list animated fadeInDown" *ngIf="acts.isAccord1Active">
+          <li>
+            <h5 class="label">DOWNLOAD AS</h5>
+          </li>
+          <li>
+            <a>SRT file</a>
+          </li>
+          <li>
+            <a>Word document</a>
+          </li>
+          <li>
+            <a>PDF file</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <!-- NOTES -->
+    <li>
+      <button mat-button class="btn-menu"
+              [ngClass]="{'active': currContent === 'notes'}"
+              (click)="onSelectContent('notes')">
+        <i class="icon flaticon-text-document"></i>
+        <span class="btn-title">Notes</span>
+      </button>
+    </li>
+
+    <!-- MESSAGES -->
+    <li>
+      <button mat-button class="btn-menu"
+              [ngClass]="{'active': currContent === 'messages'}"
+              (click)="onSelectContent('messages')">
+        <i class="icon flaticon-chat"></i>
+        <span class="btn-title">Messages</span>
+      </button>
+    </li>
+
+    <!-- SETTINGS -->
+    <li>
+      <div class="accordion-wrapp">
+        <button mat-button class="btn-accordion btn-menu"
+                (click)="onToggleAccordion('isAccord2Active')">
+          <i class="icon flaticon-settings"></i>
+          <span class="btn-title">Settings</span>
+          <mat-icon [ngClass]="{'rotate-90deg': acts.isAccord2Active}">chevron_right</mat-icon>
+        </button>
+        <ul class="accordion-list animated fadeInDown" *ngIf="acts.isAccord2Active">
+          <li>
+            <a (click)="onSelectContent('video')">Video</a>
+          </li>
+          <li>
+            <a (click)="onSelectContent('shortcut')">Shortcuts</a>
+          </li>
+          <li>
+            <a (click)="onSelectContent('settings')">Settings</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+
+  <button class="btn-close-menu" mat-icon-button (click)="onCloseMenu()">
+    <i class="flaticon-cancel"></i>
+  </button>
+</nav>
+
+<!-- CONTENT -->
+<div class="content-wrapper" [ngClass]="{'active': currContent, 'playlist': currContent === 'playlist'}">
+
+  <!-- NOTES -->
+  <div class="content" [ngClass]="{'active ': currContent === 'notes'}">
+    <app-menu-notes *ngIf="currContent === 'notes'"></app-menu-notes>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="content" [ngClass]="{'active': currContent === 'messages'}">
+    <app-menu-messages *ngIf="currContent === 'messages'"></app-menu-messages>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="content" [ngClass]="{'active': currContent === 'video'}">
+    <app-menu-video *ngIf="currContent === 'video'"></app-menu-video>
+  </div>
+
+  <!-- SHORTCUTS -->
+  <div class="content" [ngClass]="{'active': currContent === 'shortcut'}">
+    <app-menu-shortcuts *ngIf="currContent === 'shortcut'"></app-menu-shortcuts>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="content" [ngClass]="{'active': currContent === 'settings'}">
+    <app-menu-settings *ngIf="currContent === 'settings'"></app-menu-settings>
+  </div>
+
+  <!-- PLAYLIST -->
+  <div class="content" [ngClass]="{'active': currContent === 'playlist'}">
+    <app-menu-playlist *ngIf="currContent === 'playlist'"></app-menu-playlist>
+  </div>
+
+</div>

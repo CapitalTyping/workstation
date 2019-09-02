@@ -1,0 +1,5 @@
+<div class="spinner-wrapper"
+     [ngClass]="{'fullscreen': fullscreen, 'opaque': opaque}">
+  <mat-spinner [diameter]="size"></mat-spinner>
+  <h2 class="spinner-message" *ngIf="message">{{ message }}</h2>
+</div>

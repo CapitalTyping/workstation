@@ -1,0 +1,38 @@
+@import '~src/common';
+
+nav {
+  margin-bottom: 2em;
+
+  ul {
+    @extend %listreset;
+    display: flex;
+
+    button {
+      font-weight: 400;
+
+      /deep/ .mat-button-wrapper:after {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 0;
+        height: 2px;
+        margin: auto;
+        background: $active-process;
+        border-radius: 20%;
+        transition: width .5s;
+      }
+
+      &.active {
+        font-weight: 500;
+        color: $black;
+
+        /deep/ .mat-button-wrapper:after {
+          width: 80%;
+          transition: width .5s;
+        }
+      }
+    }
+  }
+}

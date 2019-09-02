@@ -1,0 +1,66 @@
+@import '~src/assets/scss/modules/menu-content';
+
+.content-title {
+  color: $base-background-color;
+}
+
+.playlist-list {
+  padding-left: $content-padding-left;
+
+  li {
+    margin: 1em 0;
+
+    .control-btn {
+      min-width: 60px;
+      margin-right: 1em;
+      width: 60px;
+      height: 60px;
+      color: $base-background-color;
+      background: $highlight;
+      line-height: unset;
+
+      mat-icon {
+        font-size: 40px;
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+      }
+
+      .media-avatar {
+        min-width: 60px;
+        height: 60px;
+        margin-right: 1em;
+      }
+
+      &:hover {
+        .media-avatar {
+          display: none;
+        }
+      }
+    }
+
+
+    .media-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .media-title {
+        margin: 0;
+        color: $base-background-color;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+
+      .media-time {
+        color: rgba(255,255,255,.5);
+      }
+    }
+
+    &.current-media {
+      .media-title {
+        text-decoration: underline;
+      }
+    }
+  }
+}

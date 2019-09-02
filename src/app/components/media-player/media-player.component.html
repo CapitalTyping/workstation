@@ -1,0 +1,48 @@
+<div class="progress">
+  <mat-slider [max]="player.duration" [value]="tempData.currentTime" (change)="onSetTime($event)"></mat-slider>
+</div>
+
+<video #playerElem class="media-player" controls>
+  <source src="">
+</video>
+
+<div class="player-container f-c-spb">
+
+  <div class="file-name f-c-c">
+    <button mat-icon-button (click)="onTogglePlaylist()">
+      <i class="flaticon-folder"></i>
+    </button>
+    <h6>FileName - {{ fileName }}</h6>
+  </div>
+
+  <div class="controls f-c-c">
+    <button mat-icon-button class="control-btn" (click)="onSkip(false)">
+      <mat-icon>fast_rewind</mat-icon>
+    </button>
+    <button mat-icon-button class="control-btn" (click)="onTogglePlay()">
+      <mat-icon>{{ player.paused ? 'play_arrow' : 'pause' }}</mat-icon>
+    </button>
+    <button mat-icon-button class="control-btn" (click)="onStop()">
+      <mat-icon>stop</mat-icon>
+    </button>
+    <button mat-icon-button class="control-btn" (click)="onSkip(true)">
+      <mat-icon>fast_forward</mat-icon>
+    </button>
+  </div>
+
+  <div class="volume f-c-c">
+    <button mat-icon-button (click)="onToggleMute()">
+      <mat-icon>{{ tempData.volume ? 'volume_up' : 'volume_off' }}</mat-icon>
+    </button>
+    <mat-slider [step]="0.01" [max]="1" [value]="tempData.volume" (change)="onSetVolume($event)"></mat-slider>
+  </div>
+
+  <div class="frames-speed f-c-c">
+    <span class="title">Frames speed</span>
+    <div class="f-c-c">
+      <button mat-button class="value-button decrease" (click)="onChangeSpeed(false)">-</button>
+      <input type="number" [(ngModel)]="player.playbackRate"/>
+      <button mat-button class="value-button increase" (click)="onChangeSpeed(true)">+</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<mat-form-field style="width: auto">
+  <mat-label>Time code format</mat-label>
+  <mat-select [(ngModel)]="currTimeCode" (selectionChange)="onSelectTimeCodeFormat($event)">
+    <mat-option *ngFor="let type of timeCodeView" [value]="type.value">
+      {{ type.view }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

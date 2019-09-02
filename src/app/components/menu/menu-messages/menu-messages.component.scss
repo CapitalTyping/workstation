@@ -1,0 +1,32 @@
+@import '~src/assets/scss/modules/menu-content';
+
+.messages-list {
+  margin-left: $content-padding-left;
+
+  li {
+    border-bottom: 1px solid #f3f3f3;
+    margin-top: 1em;
+
+    .msg-avatar {
+      min-width: 60px;
+      height: 60px;
+      margin-right: 1em;
+    }
+
+    .msg-username {
+      margin: 0;
+      color: $base-text-title-color;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    .msg-time {
+      color: $label-color;
+    }
+
+    .msg-content {
+      margin-top: 0;
+    }
+  }
+
+}

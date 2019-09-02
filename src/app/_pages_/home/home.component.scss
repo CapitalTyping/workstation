@@ -1,0 +1,9 @@
+@import "~src/assets/scss/modules/variables";
+
+/deep/ app-home div {
+  position: relative;
+
+  &.recognition-active {
+    height: calc(100vh - #{$player-height} * 2);
+  }
+}

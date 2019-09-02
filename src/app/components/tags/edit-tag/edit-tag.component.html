@@ -1,0 +1,61 @@
+<div>
+  <div>
+    <!-- TAG PREVIEW -->
+    <button class="tag-btn" mat-raised-button
+            [style.background]="currTag.fillColor"
+            [style.color]="currTag.textColor">
+      {{ currTag.title || 'tag name' }}
+    </button>
+
+    <!-- CONTROL -->
+    <ng-container *ngIf="currTag.id">
+      <button class="tag-control-btn" mat-raised-button (click)="applyChanges()">
+        <mat-icon>done</mat-icon>
+      </button>
+      <button class="tag-control-btn" mat-raised-button (click)="removeTag()">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </ng-container>
+    <button class="tag-control-btn" mat-raised-button (click)="addCurrentTag()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button class="tag-control-btn" mat-raised-button (click)="currTag = resetTag()" *ngIf="currTag.title || currTag.id">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <!-- TIME CODE FORMAT -->
+    <app-time-code-format></app-time-code-format>
+  </div>
+
+
+  <!-- TAG EDITOR -->
+  <div class="flex">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Tag name" maxlength="100" [(ngModel)]="currTag.title" (keyup)="onKeyUp($event)">
+      <mat-hint align="end">{{ currTag.title.length }} / 100</mat-hint>
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="currTag.title" (click)="currTag.title = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button mat-icon-button color="primary">
+      <mat-icon [(colorPicker)]="currTag.fillColor">format_color_fill</mat-icon>
+    </button>
+    <button mat-icon-button color="primary">
+      <mat-icon [(colorPicker)]="currTag.textColor">format_color_text</mat-icon>
+    </button>
+  </div>
+
+
+  <!-- EXISTED TAGS -->
+  <p>
+    <span>Existed: </span>
+    <button class="tag-btn-preview" mat-stroked-button
+            [ngClass]="{'tag-selected': tag.isSelected}"
+            [style.background]="tag.fillColor"
+            [style.color]="tag.textColor"
+            (click)="markAsInUse(tag)"
+            *ngFor="let tag of tags | filter:['title']:currTag.title">{{ tag.title}}
+      <mat-icon (click)="editTag(tag, $event)">edit</mat-icon>
+    </button>
+  </p>
+</div>

@@ -1,0 +1,19 @@
+<h3 class="content-title">Video</h3>
+
+<div class="video-wrapp">
+  <h3>{{ currMedia.title }}</h3>
+  <div class="media-player-wrapper media-{{ currMedia.type }}" #playerContainer>
+    <!--<audio controls>-->
+    <!--<source [src]="task.media[0].url" >-->
+    <!--Your browser does not support HTML5 video.-->
+    <!--</audio>-->
+  </div>
+
+
+  <!--<a [href]="task.media[0].url" target="_blank">{{ task.media[0].type }} source</a>-->
+  <ul class="config">
+    <li><b>Encoding:</b> {{ currMedia.params.config.encoding }}</li>
+    <li><b>Hertz rate:</b> {{ currMedia.params.config.sampleRateHertz }}</li>
+    <li><b>Language code:</b> {{ currMedia.params.config.languageCode }}</li>
+  </ul>
+</div>

@@ -1,0 +1,25 @@
+@import '~src/assets/scss/modules/menu-content';
+
+.video-wrapp {
+  padding-left: $content-padding-left;
+
+  ul {
+    .config {
+      color: $label-color;
+    }
+  }
+
+  .media-player-wrapper {
+    &.media-audio {
+      /deep/ .media-player {
+        height: 4em;
+      }
+    }
+
+    /deep/ .media-player {
+      width: 100%;
+      min-width: 300px;
+    }
+  }
+}
+

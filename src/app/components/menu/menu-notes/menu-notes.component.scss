@@ -1,0 +1,25 @@
+@import '~src/assets/scss/modules/menu-content';
+
+.notes-list {
+  margin: 0 0 1em $content-padding-left;
+
+  ul {
+    @extend %listreset;
+    //margin: 1em 1.5em 0;
+    padding: 1.5em;
+    background: #f3f6fb;
+  }
+
+  .note-title {
+    margin: 0 0 1em 0;
+    font-size: 1.2rem;
+    color: $base-text-title-color;
+  }
+
+  .note-content {
+    padding: 0;
+    color: $label-color;
+    font-size: 1rem;
+    line-height: 22.4px;
+  }
+}

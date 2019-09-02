@@ -1,0 +1,32 @@
+{
+	"list": [
+		{
+			"id": "1",
+			"title": "inaudible",
+			"fillColor": "grey",
+			"textColor": "white",
+			"isSelected": "true"
+		},
+		{
+			"id": "2",
+			"title": "some",
+			"fillColor": "blue",
+			"textColor": "white",
+			"isSelected": "false"
+		},
+		{
+			"id": "3",
+			"title": "another",
+			"fillColor": "yellow",
+			"textColor": "black",
+			"isSelected": "false"
+		},
+		{
+			"id": "4",
+			"title": "clears throat",
+			"fillColor": "yellow",
+			"textColor": "black",
+			"isSelected": "true"
+		}
+	]
+}

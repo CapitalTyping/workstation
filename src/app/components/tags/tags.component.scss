@@ -1,0 +1,50 @@
+.tags-toolbar {
+  position: relative;
+}
+
+.tag-add-btn {
+  height: 2em;
+  width: 2.1em;
+  margin: 0 5px 5px 0;
+  padding: 0;
+  min-width: auto;
+  border-radius: 50%;
+  line-height: unset;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+.tag-btn {
+  margin: 0 5px 5px 0;
+  border-radius: 20px;
+  line-height: 30px;
+}
+
+
+.segment-btn {
+  margin: 0 5px 5px 0;
+  padding: 0 30px 0 7px;
+  font-size: 1rem;
+  line-height: 24px;
+  border-radius: 20px;
+
+  /deep/ .mat-button-wrapper {
+    white-space: initial;
+  }
+
+  mat-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    font-size: 20px;
+  }
+}

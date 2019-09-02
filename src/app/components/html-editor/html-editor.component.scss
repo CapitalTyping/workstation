@@ -1,0 +1,30 @@
+@import "~src/assets/scss/modules/variables";
+
+/deep/ quill-editor {
+  //color: $active-process;
+
+
+  .ql-toolbar.ql-snow {
+    border: 0;
+  }
+
+  .quill-editor.ql-container {
+    height: calc(100vh - #{$player-height} * 3);
+    overflow: auto;
+    border: 0;
+    //font-family: Monospace;
+
+    .speaker {
+      display: inline-block;
+      margin-top: 1em;
+      color: $speaker;
+      cursor: pointer;
+      white-space: normal;
+
+    }
+
+    .word {
+
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<div class="snackbar-block" #snack>
+  <h3 class="snackbar-title" *ngIf="content.title">{{ content.title }}</h3>
+  <h3 class="snackbar-title capitalize" *ngIf="!content.title">{{ content.type }}</h3>
+  <p class="snackbar-message" [innerHTML]=content.message></p>
+  <button class="snackbar-close-btn" type="button" (click)="dismiss()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
