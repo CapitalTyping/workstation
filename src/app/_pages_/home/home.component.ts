@@ -46,7 +46,8 @@ export class HomeComponent implements OnInit {
       subData.data['timestamp'].map(item => {
         this.timestampArr.push(item);
       });
-      console.log(this.timestampArr);
+    } else {
+      this.editorContent = '';
     }
     this.zone.run(() => {
       this.acts.isRecognitionInProcess = subData.inProcess;
