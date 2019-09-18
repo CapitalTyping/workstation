@@ -15,12 +15,11 @@ export class EditTagComponent implements OnInit {
   tags: ITag[] = [];
   sections: ITagSection[] = [];
   currTag: ITag = this.resetTag();
-
   constructor(
-      @Inject(MAT_DIALOG_DATA) public data,
-      private tagsSvc: TagsService,
-      private findHlp: FindHelper,
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data,
+    private tagsSvc: TagsService,
+    private findHlp: FindHelper,
+  ) { }
 
   ngOnInit() {
     this.tags = this.data.tags;
@@ -63,17 +62,17 @@ export class EditTagComponent implements OnInit {
 
   editTag(tag: ITag, ev) {
     ev.stopPropagation();
-    this.currTag = {...tag};
+    this.currTag = { ...tag };
   }
 
   private getSectionIndex(tagId: number) {
     let tagSectionIndex = -1;
     this.sections.some((section, i) => {
-          if (section.tag.id === tagId) {
-            tagSectionIndex = i;
-            return true;
-          }
-        }
+      if (section.tag.id === tagId) {
+        tagSectionIndex = i;
+        return true;
+      }
+    }
     );
     return tagSectionIndex;
   }
@@ -93,7 +92,7 @@ export class EditTagComponent implements OnInit {
     this.tagsSvc.saveTagsInStore(this.tags);
     this.currTag.id = null;
     // upd filter pipe
-    const title =  this.currTag.title;
+    const title = this.currTag.title;
     this.currTag.title = title + ' ';
     setTimeout(() => this.currTag.title = title, 4);
   }

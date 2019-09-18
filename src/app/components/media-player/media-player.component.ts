@@ -28,10 +28,10 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-      private taskSvc: TaskService,
-      private playerSvc: PlayerService,
-      private fileNameHlp: FileNameHelper,
-      private hotKeysHlp: HotKeysHelper,
+    private taskSvc: TaskService,
+    private playerSvc: PlayerService,
+    private fileNameHlp: FileNameHelper,
+    private hotKeysHlp: HotKeysHelper,
   ) {
     this.taskSvc.$task.pipe(untilDestroyed(this)).subscribe(task => task.media.length && this.initAudio(task.media[0]));
     this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe((media: ITaskMedia) => media && this.updFileName(media.url));
@@ -47,15 +47,26 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     this.playerSvc.registerPlayer(this.playerElem.nativeElement);
   }
 
-  initAudio(media: ITaskMedia) {
-    this.playerSvc.updContext(media.url);
+  initAudio(media: any) { // ITaskMedia
+    console.log(media);
+    this.fileName = media.title;
+    if (media.media_type === 'video') {
+      this.playerSvc.updContext(media.video_file_url);
+    } else {
+      this.playerSvc.updContext(media.audio_file_url);
+    }
     this.player.load();
-    this.updFileName(media.url);
+    // this.updFileName(media.url);
+    // this.updFileName(media.title);
   }
 
   updFileName(url) {
-    this.fileName = this.fileNameHlp.prepareTitleFromUrl(url);
+    // this.fileName = this.fileNameHlp.prepareTitleFromUrl(url);
   }
+
+  // updFileName(title) {
+  //   this.fileName = title;
+  // }
 
   onTogglePlay() {
     this.playerSvc.togglePlay();
@@ -89,5 +100,5 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     this.taskSvc.emitTogglePlaylist();
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }

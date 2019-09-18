@@ -17,8 +17,8 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
   player: HTMLMediaElement;
 
   constructor(
-      private taskSvc: TaskService,
-      private playerSvc: PlayerService,
+    private taskSvc: TaskService,
+    private playerSvc: PlayerService,
   ) {
     this.taskSvc.$task.pipe(untilDestroyed(this)).subscribe(task => this.task = task);
     this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe(media => this.currMedia = media);
@@ -29,6 +29,7 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
       // this.playerContainer.nativeElement.appendChild(player);
       this.player = player;
     });
+    console.log(this.task);
   }
 
   onTogglePlay(media: ITaskMedia) {
@@ -40,5 +41,5 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }

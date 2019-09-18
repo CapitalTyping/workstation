@@ -1,9 +1,7 @@
 <div>
   <div>
     <!-- TAG PREVIEW -->
-    <button class="tag-btn" mat-raised-button
-            [style.background]="currTag.fillColor"
-            [style.color]="currTag.textColor">
+    <button class="tag-btn" mat-raised-button [style.background]="currTag.fillColor" [style.color]="currTag.textColor">
       {{ currTag.title || 'tag name' }}
     </button>
 
@@ -49,12 +47,9 @@
   <!-- EXISTED TAGS -->
   <p>
     <span>Existed: </span>
-    <button class="tag-btn-preview" mat-stroked-button
-            [ngClass]="{'tag-selected': tag.isSelected}"
-            [style.background]="tag.fillColor"
-            [style.color]="tag.textColor"
-            (click)="markAsInUse(tag)"
-            *ngFor="let tag of tags | filter:['title']:currTag.title">{{ tag.title}}
+    <button class="tag-btn-preview" mat-stroked-button [ngClass]="{'tag-selected': tag.isSelected}" [style.background]="tag.fillColor"
+      [style.color]="tag.textColor" (click)="markAsInUse(tag)" *ngFor="let tag of tags | filter:['title']:currTag.title">{{
+      tag.title}}
       <mat-icon (click)="editTag(tag, $event)">edit</mat-icon>
     </button>
   </p>

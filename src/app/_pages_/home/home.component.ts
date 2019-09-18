@@ -25,9 +25,9 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(
-      private speechSvc: SpeechService,
-      private zone: NgZone,
-      private editorHlp: ContentHelper,
+    private speechSvc: SpeechService,
+    private zone: NgZone,
+    private editorHlp: ContentHelper,
   ) {
   }
 
@@ -37,10 +37,16 @@ export class HomeComponent implements OnInit {
   }
 
   private onGetData(subData: ITranscriptionSubject) {
-    if (!subData.inProcess && subData.data) {
-      this.transcription = subData.data;
-      this.timestampArr = [];
-      this.editorContent = this.editorHlp.prepareContent(this.transcription, this.timestampArr);
+    if (subData.data) {
+      // this.transcription = subData.data;
+      // this.timestampArr = [];
+      // console.log(this.transcription);
+      // this.editorContent = this.editorHlp.prepareContent(this.transcription, this.timestampArr);
+      this.editorContent = subData.data['content'];
+      subData.data['timestamp'].map(item => {
+        this.timestampArr.push(item);
+      });
+      console.log(this.timestampArr);
     }
     this.zone.run(() => {
       this.acts.isRecognitionInProcess = subData.inProcess;

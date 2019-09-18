@@ -16,20 +16,24 @@ export class MenuVideoComponent implements OnInit, OnDestroy {
   currMedia: ITaskMedia;
 
   constructor(
-      private taskSvc: TaskService,
-      private playerSvc: PlayerService,
+    private taskSvc: TaskService,
+    private playerSvc: PlayerService,
   ) {
     this.taskSvc.$task.pipe(untilDestroyed(this)).subscribe(task => this.task = task);
     this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe(media => this.currMedia = media);
   }
 
   ngOnInit() {
-    this.playerSvc.$player.pipe(untilDestroyed(this)).subscribe(player => this.playerContainer.nativeElement.appendChild(player));
+    this.playerSvc.$player.pipe(untilDestroyed(this)).subscribe(player => {
+      this.playerContainer.nativeElement.appendChild(player);
+      console.log(player);
+    }
+    );
   }
 
   onSelectMedia(media: ITaskMedia) {
     this.taskSvc.selectMediaToWork(media);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }

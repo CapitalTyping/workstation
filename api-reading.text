@@ -1,0 +1,33 @@
+1. Get Task Details. .
+2. Send it to Google api for translating
+3. convert media url to base64 content (based on audio & video file)
+
+
+call this url with config. . 
+
+https://content-speech.googleapis.com/v1/speech:longrunningrecognize?alt=json&key=AIzaSyCbU8hbDsM7LG2Mnih9grtR9vPjPAtWBGM
+
+it will return a name : eg. {name: "1658583256445990741"};
+
+Then keep calling this url until u get done in response - 
+https://content-speech.googleapis.com/v1/operations/{name}?key=AIzaSyCbU8hbDsM7LG2Mnih9grtR9vPjPAtWBGM
+
+
+
+
+
+Config example: 
+
+audio: {
+content: "UklGRqJEGwBXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZG"
+}
+config: {
+audioChannelCount: 1
+enableAutomaticPunctuation: true
+enableSeparateRecognitionPerChannel: false
+enableWordTimeOffsets: true
+languageCode: "en-US"
+metadata: null
+model: "video"
+useEnhanced: false
+}

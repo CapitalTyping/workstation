@@ -24,20 +24,24 @@ export class TagsComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-      private dialog: MatDialog,
-      private tagsSvc: TagsService,
-      private editorSvc: EditorService,
-      private playerSvc: PlayerService,
+    private dialog: MatDialog,
+    private tagsSvc: TagsService,
+    private editorSvc: EditorService,
+    private playerSvc: PlayerService,
   ) { }
 
   ngOnInit() {
     this.tagsSvc.$tags.pipe(untilDestroyed(this)).subscribe(tags => {
       if (tags) {
         this.tags = tags;
+        console.log(this.tags);
         this.acts.isLoading = false;
       }
     });
-    this.tagsSvc.$tagsSections.pipe(untilDestroyed(this)).subscribe((sections) => this.sections = sections);
+    this.tagsSvc.$tagsSections.pipe(untilDestroyed(this)).subscribe((sections) => {
+      this.sections = sections;
+      console.log(this.sections);
+    });
   }
 
   openEditor() {
@@ -45,7 +49,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       data: {
         tags: this.tags,
         sections: this.sections,
-        done: () => {}
+        done: () => { }
       }
     });
   }
@@ -63,5 +67,5 @@ export class TagsComponent implements OnInit, OnDestroy {
     this.playerSvc.setTime(+segment.time.start);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }

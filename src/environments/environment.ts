@@ -1,6 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://private-084480-tanscribatron.apiary-mock.com',
+  // apiUrl: 'http://private-084480-tanscribatron.apiary-mock.com',
+  // apiUrl: 'http://localhost/workstation/public',
+  apiUrl: 'http://dev.capitaltyping.com/api',
   googleApi: {
     speechKey: 'AIzaSyCbU8hbDsM7LG2Mnih9grtR9vPjPAtWBGM'
   },

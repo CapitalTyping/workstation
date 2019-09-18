@@ -9,7 +9,7 @@
     <!--<div class="media-avatar"><img src="assets/images/play.png" alt="play-button"></div>-->
     <div class="media-info">
       <h5 class="media-title" (click)="onTogglePlay(media)">{{ media.title }}</h5>
-      <span class="media-time">1 min</span>
+      <span class="media-time">{{ media.duration }}</span>
     </div>
   </li>
 </ul>

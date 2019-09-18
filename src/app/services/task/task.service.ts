@@ -8,6 +8,7 @@ import { SpeechService } from '@services/speech/speech.service';
 import { EditorService } from '@services/html-editor/editor.service';
 import { PlayerService } from '@services/player/player.service';
 import { SnackbarService } from '@services/snackbar/snackbar.service';
+import { TagsService } from '../tags/tags.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,20 +23,29 @@ export class TaskService {
   $isPlaylistOpened = new Subject<boolean>();
 
   constructor(
-      private apiSvc: ApiService,
-      private speechSvc: SpeechService,
-      private editorSvc: EditorService,
-      private playerSvc: PlayerService,
-      private snackbarSvc: SnackbarService,
-  ) {}
+    private apiSvc: ApiService,
+    private speechSvc: SpeechService,
+    private editorSvc: EditorService,
+    private playerSvc: PlayerService,
+    private snackbarSvc: SnackbarService,
+    private tagSvc: TagsService,
+  ) { }
 
-  getTaskDetails(): Observable<ISessionDetails> {
-    return this.apiSvc.get('/details')
-        .pipe(tap(details => {
-          this.$task.next(details.task);
-          this.selectMediaToWork(details.task.media[0]);
-        }));
+  getTaskDetails(token): Observable<ISessionDetails> {
+    return this.apiSvc.get(`/task-details?token=${token}`)
+      .pipe(tap(details => {
+        this.$task.next(details.task);
+        this.tagSvc.setTags(details.task.media[0].tags);
+        this.tagSvc.fetchSections(details.task.media[0].tagSection);
+        this.selectMediaToWork(details.task.media[0]);
+      }));
   }
+
+  // getTaskDetails() {
+  //   return this.apiSvc.get('/').pipe(tap(res => {
+  //     return res;
+  //   }));
+  // }
 
   sendResult(): Observable<any> {
     console.log(this.editorSvc.getDelta());
@@ -45,11 +55,12 @@ export class TaskService {
     });
   }
 
-  selectMediaToWork(media: ITaskMedia) {
+  selectMediaToWork(media: any) {
     if (this.speechSvc.isAvailable) {
       if (this._currMedia.title !== media.title) {
         this.$currentMedia.next(media);
         this.playerSvc.updContext(media.url);
+        // this.speechSvc.setGapiResponseToEditor(media[0].params.response);
         this.speechSvc.initRecognition(media, media.recognizeType);
         this._currMedia = media;
       }

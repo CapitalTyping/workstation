@@ -47,7 +47,7 @@ enum Leaf {
 interface IContext {
   collapsed: boolean,
   empty: boolean,
-  format: {[blotName: string]: DOMStringMap},
+  format: { [blotName: string]: DOMStringMap },
   offset: number,
   prefix: string,
   suffix: string,
@@ -69,7 +69,7 @@ const Support = {
 })
 export class HtmlEditorComponent implements OnInit, OnDestroy {
   @Input() editorContent = `<h3>Content...</h3>`;
-  @Input() timestampArr: ITimeContainer[] = [];
+  @Input() timestampArr: ITimeContainer[];
 
   private quill: impQuill;
   public editorOptions: any = {
@@ -81,9 +81,9 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
     modules: {
       toolbar: [
         ['bold', 'italic', 'underline', 'strike'],
-        [{'color': []}, {'background': []}],
-        [{'font': []}],
-        [{'align': ['', 'center', 'right']}],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'font': [] }],
+        [{ 'align': ['', 'center', 'right'] }],
       ],
       // clipboard: {},
       keyboard: {
@@ -101,21 +101,22 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
 
   private styleElement: HTMLElement;
   private containers = [];
-  private speakers: ISpeaker[] = [{title: 'SomeName', id: '3'}];
+  private speakers: ISpeaker[] = [{ title: 'SomeName', id: '3' }];
   private isPrevKeyCodeEnter;
 
   constructor(
-      private el: ElementRef,
-      private dialog: MatDialog,
-      private playerSvc: PlayerService,
-      private speakerSvc: SpeakerService,
-      private editorSvc: EditorService,
-      private editorContentHlp: ContentHelper,
-      private tagsSvc: TagsService,
-      private hotKeysHlp: HotKeysHelper,
-  ) {}
+    private el: ElementRef,
+    private dialog: MatDialog,
+    private playerSvc: PlayerService,
+    private speakerSvc: SpeakerService,
+    private editorSvc: EditorService,
+    private editorContentHlp: ContentHelper,
+    private tagsSvc: TagsService,
+    private hotKeysHlp: HotKeysHelper,
+  ) { }
 
   ngOnInit() {
+    console.log('trr', this.timestampArr);
     const Break = Quill.import('blots/break');
     Quill.register(Break);
     this.registerSpeaker();
@@ -144,24 +145,25 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
   private checkIfNeedsStyle(sec) {
     if (sec) {
       const container: ITimeContainer = this.timestampArr[this.findIndex(this.timestampArr, sec)];
+      console.log(container);
       container && this.updHighlight(container.start, container.words[this.findIndex(container.words, sec)]);
     } else {
       this.styleElement.innerText = HIGHLIGHT.DEFAULT_CSS;
     }
   }
 
-  private findIndex(arr: {start: string}[], sec) {
+  private findIndex(arr: { start: string }[], sec) {
     let index = 0;
     const lastIndex = arr.length - 1;
     (arr || []).some((stamp, i) => {
-          if (stamp.start > sec) {
-            index = i ? i - 1 : 0;
-            return true;
-          } else if (arr[lastIndex].start < sec) {
-            index = lastIndex;
-            return true;
-          }
-        }
+      if (stamp.start > sec) {
+        index = i ? i - 1 : 0;
+        return true;
+      } else if (arr[lastIndex].start < sec) {
+        index = lastIndex;
+        return true;
+      }
+    }
     );
     return index;
   }
@@ -169,7 +171,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
   private registerSpeaker() {
     const speakers = this.speakers;
     const onClickSpeaker = (ev) => this.dialog.open(EditSpeakerComponent, {
-        data: {speakerElem: ev.target, speakers: speakers}
+      data: { speakerElem: ev.target, speakers: speakers }
     });
     const prepareSpeakerTitle = (speakerName, time) => this.editorContentHlp.prepareSpeakerTitle(speakerName, time);
     const updSpeakers = () => this.speakerSvc.updExistedSpeakers(speakers);
@@ -190,7 +192,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
         // add if new
         if (!speakers.some(sp => sp.id === dataset.id)) {
           const id = dataset.id || +speakers[speakers.length - 1].id + 1;
-          const speaker: ISpeaker = {title: 'Speaker ' + id, id: id};
+          const speaker: ISpeaker = { title: 'Speaker ' + id, id: id };
           speakers.push(speaker);
 
           node.innerText = prepareSpeakerTitle(speaker.title, dataset.start);
@@ -254,7 +256,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
     const isPrevSpeaker = this.quill.getLeaf(range.index - 1)[Leaf.TEXT_BLOT].domNode.localName === SPEAKER.TAG_NAME;
     const isEndOfBlankLine = context.offset <= Support.endOfBlinkLineMaxOffset && context.prefix === ' ' && !context.suffix;
     const isTextDomNode = !context.offset && !context.prefix && !context.suffix;
-    console.log(context, this.quill.getLeaf(range.index), {isPrevSpeaker, isEndOfBlankLine, isTextDomNode});
+    console.log(context, this.quill.getLeaf(range.index), { isPrevSpeaker, isEndOfBlankLine, isTextDomNode });
 
     if (isTextDomNode) {
       this.quill.deleteText(range.index - 1, 1);
@@ -270,7 +272,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
 
     console.log('=========speaker=====', isPrevSpeaker);
     const wordFormat = context.format[WORD.BLOT_NAME];
-    this.quill.insertEmbed(range.index, SPEAKER.BLOT_NAME, {id: '1', ...wordFormat}, Quill.sources.SILENT);
+    this.quill.insertEmbed(range.index, SPEAKER.BLOT_NAME, { id: '1', ...wordFormat }, Quill.sources.SILENT);
     this.quill.setSelection(range.index + 1);
 
     // emit click on speaker
@@ -300,7 +302,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
       this.quill.deleteText(range.index, 1);
       this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
     } else if (isLastChar) {
-      this.quill.insertEmbed(range.index + 1, WORD.BLOT_NAME, {...wordFormat, insert: ' '}, Quill.sources.USER);
+      this.quill.insertEmbed(range.index + 1, WORD.BLOT_NAME, { ...wordFormat, insert: ' ' }, Quill.sources.USER);
       this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
     } else if (isStartBlankLine) {
       // this.quill.insertText(range.index + 1, '\n');
@@ -376,6 +378,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
   }
 
   onContentChanged(attr) {
+    console.log(this.editorContent);
     // const range = this.quill.getSelection() as any;
     // const content = this.quill.getContents(range);
     // console.log(range, content);
@@ -387,7 +390,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
     // console.log(text);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }
 
 // Container

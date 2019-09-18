@@ -28,9 +28,10 @@ export class ContentHelper {
    * @param timestampArr
    */
   prepareContent(transcription: ISpeechResults, timestampArr: ITimeContainer[]) {
-      this.timestampArr = timestampArr;
-      const content = transcription.reduce((acc, res, i) => acc + this.prepareContainer(res.alternatives[0], i), '');
-      return content || `Speech api didn't recognize any word...`;
+    this.timestampArr = timestampArr;
+    const content = transcription.reduce((acc, res, i) => acc + this.prepareContainer(res.alternatives[0], i), '');
+    console.log(content);
+    return content || `Speech api didn't recognize any word...`;
   }
 
   private prepareContainer(section: IAlternative, index) {
@@ -53,7 +54,7 @@ export class ContentHelper {
              data-title="${speakerTitle}" 
              data-start="${this.normalizeStamp(firstWord.startTime)}" 
              data-end="${this.normalizeStamp(firstWord.endTime)}"
-             >${ speakerTitle }</x-h1>
+             >${ speakerTitle}</x-h1>
 <p>
 
            ${section.words.reduce((acc, w, i) => acc + this.prepareWords(container, w, i, section), '')}

@@ -31,24 +31,33 @@ export class TagsService {
   private _selectedDeltaOps: IDelta['ops'];
 
   constructor(
-      private apiSvc: ApiService,
-      private storageSvc: StorageService,
-      private contentHlp: ContentHelper,
+    private apiSvc: ApiService,
+    private storageSvc: StorageService,
+    private contentHlp: ContentHelper,
   ) {
     this.contentHlp.currTimeCodeFormat$.subscribe(() => this.onChangedTimeCodeFormat());
   }
 
-  fetchTags(config: ITagConfig) {
-    if (config.getAll) {
-      localStorage.tags
-          ? this.$tags.next(this.storageSvc.getItem<ITag[]>('tags'))
-          : this.apiSvc.get('/tags').subscribe(tags => this.$tags.next(tags));
-    } else {
-      this.$tags.next(config.available);
-    }
+  // fetchTags(config: ITagConfig) {
+  fetchTags(tags: any) {
+    this.$tags.next(tags);
+    // this.apiSvc.get('/tags').subscribe(tagss => this.$tags.next(tagss));
+    // if (config.getAll) {
+    //   localStorage.tags
+    //       ? this.$tags.next(this.storageSvc.getItem<ITag[]>('tags'))
+    //       : this.apiSvc.get('/tags').subscribe(tags => this.$tags.next(tags));
+    // } else {
+    //   this.$tags.next(config.available);
+    // }
   }
 
-  fetchSections(sections: ITagSection[]) {
+  setTags(tags) {
+    console.log(tags);
+    this.$tags.next(tags);
+  }
+
+  // fetchSections(sections: ITagSection[]) {
+  fetchSections(sections: any) {
     this._sections = sections;
     this.$tagsSections.next(this._sections);
   }
@@ -62,9 +71,9 @@ export class TagsService {
   }
 
   wrapInTag(tag: ITag) {
-    if (this._selectedDeltaOps.length) {
+    if (this._selectedDeltaOps && this._selectedDeltaOps.length) {
       let content = '';
-      const time: ITagSegmentTime = { start: null, end: null, insert: null};
+      const time: ITagSegmentTime = { start: null, end: null, insert: null };
       this._selectedDeltaOps.forEach(wordData => {
 
         content += wordData.insert[SPEAKER.BLOT_NAME] ? '' : wordData.insert;
@@ -76,12 +85,12 @@ export class TagsService {
       });
       if (time.start) {
         this.prepareTimeInsert(time);
-        const segment: ITagSectionSegment = {content, time};
+        const segment: ITagSectionSegment = { content, time };
         const section = this._sections.find(sec => sec.tag.id === tag.id);
         if (section) {
           section.segments.push(segment);
         } else {
-          this._sections.push({tag, segments: [segment]});
+          this._sections.push({ tag, segments: [segment] });
         }
         this.applyStyleToElems(time, tag);
         this.$tagsSections.next(this._sections);
@@ -103,7 +112,7 @@ export class TagsService {
     const section: ITagSection = this._sections[sectIndex];
     const time = section.segments[segmIndex].time;
 
-    this.applyStyleToElems(time, {fillColor: COLOR.BACKGROUND, textColor: COLOR.TEXT});
+    this.applyStyleToElems(time, { fillColor: COLOR.BACKGROUND, textColor: COLOR.TEXT });
 
     if (section.segments.length > 1) {
       section.segments.splice(segmIndex, 1);
@@ -120,10 +129,10 @@ export class TagsService {
   }
 
   private onChangedTimeCodeFormat() {
-      this._sections.length && this._sections.forEach(sect => {
-        sect.segments.forEach(seg => {
-          this.prepareTimeInsert(seg.time);
-        });
+    this._sections.length && this._sections.forEach(sect => {
+      sect.segments.forEach(seg => {
+        this.prepareTimeInsert(seg.time);
       });
+    });
   }
 }

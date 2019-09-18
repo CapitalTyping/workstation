@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: '',
     component: ContentWrapperComponent,
-    canActivate: [AuthGuardService],
+    // canActivate: [AuthGuardService],
     children: [
       {
         path: '',
@@ -28,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ContentWrapperRoutingModule {}
+export class ContentWrapperRoutingModule { }
