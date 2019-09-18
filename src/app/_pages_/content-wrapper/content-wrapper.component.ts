@@ -29,7 +29,7 @@ export class ContentWrapperComponent implements OnInit {
     const token = this.route.snapshot.queryParams.session_token;
     console.log('aaa', this.route);
     if (!token) {
-      // this.router.navigate(['/forbidden']);
+      this.router.navigate(['/forbidden']);
     }
     this.taskSvc.getTaskDetails(token).subscribe(
       res => {
@@ -43,7 +43,7 @@ export class ContentWrapperComponent implements OnInit {
       },
       err => {
         if (err.status === 401) {
-          // this.router.navigate(['/forbidden']);
+          this.router.navigate(['/forbidden']);
         }
       },
       () => {

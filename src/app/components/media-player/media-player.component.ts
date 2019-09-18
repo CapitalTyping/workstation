@@ -50,11 +50,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
   initAudio(media: any) { // ITaskMedia
     console.log(media);
     this.fileName = media.title;
-    if (media.media_type === 'video') {
-      this.playerSvc.updContext(media.video_file_url);
-    } else {
-      this.playerSvc.updContext(media.audio_file_url);
-    }
+    this.playerSvc.updContext(media.url);
     this.player.load();
     // this.updFileName(media.url);
     // this.updFileName(media.title);
