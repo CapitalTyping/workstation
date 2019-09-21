@@ -1,7 +1,7 @@
 <div [ngClass]="{'recognition-active': acts.isRecognitionInProcess}">
   <app-tags></app-tags>
 
-  <app-html-editor [editorContent]="editorContent" [timestampArr]="timestampArr"></app-html-editor>
+  <app-html-editor [editorContent]="editorContent" [timestampArr]="timestampArr" (offloading)="setLoaderOff($event)"></app-html-editor>
 
-  <!-- <app-waiting *ngIf="acts.isRecognitionInProcess" [message]="acts.isRecognitionProcessTitle"></app-waiting> -->
+  <app-waiting *ngIf="acts.isRecognitionInProcess" [message]="acts.isRecognitionProcessTitle"></app-waiting>
 </div>

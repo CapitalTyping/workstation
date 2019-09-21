@@ -14,7 +14,8 @@ import { TagsService } from '../tags/tags.service';
   providedIn: 'root'
 })
 export class TaskService {
-  $task = new BehaviorSubject<ITask>(this.resetTask());
+  $task = new BehaviorSubject<any>(this.resetMedia());
+  $staff = new BehaviorSubject<any>(null);
 
   private _currMedia: ITaskMedia = this.resetMedia();
   $currentMedia = new BehaviorSubject<ITaskMedia>(null);
@@ -32,10 +33,12 @@ export class TaskService {
   ) { }
 
   getTaskDetails(token): Observable<ISessionDetails> {
-    return this.apiSvc.get(`/task-details?token=${token}`)
+
+    return this.apiSvc.post(`/task-details`, { token: token })
       .pipe(tap(details => {
         this.$task.next(details.task);
-        this.tagSvc.setTags(details.task.media[0].tags);
+        this.$staff.next(details.staff);
+        this.tagSvc.setTags(details.tags);
         this.tagSvc.fetchSections(details.task.media[0].tagSection);
         this.selectMediaToWork(details.task.media[0]);
       }));
@@ -95,5 +98,9 @@ export class TaskService {
       params: null,
       transcription: null,
     };
+  }
+
+  saveTask(data) {
+    return this.apiSvc.post(`/save-task-details`, data);
   }
 }

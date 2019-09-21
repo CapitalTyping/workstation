@@ -44,14 +44,13 @@ export class SpeechService {
   }
 
   setGapiResponseToEditor(response) {
-    alert('ss');
     this.transcription$.next({ inProcess: false, data: response.results || [] });
   }
 
   initRecognition(media: any, recognizeType: ITaskMedia['recognizeType']) {
     console.log(media);
     if (!this.isAvailable) return;
-    this.transcription$.next({ inProcess: false, data: media.params });
+    this.transcription$.next({ inProcess: true, data: media.params });
     // stop previous requests
     // this._intervalId && clearInterval(this._intervalId);
     // this.updIsAvailableStatus(false);

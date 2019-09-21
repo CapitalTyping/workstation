@@ -7,6 +7,7 @@ import {
   ITranscriptionSubject
 } from '@tran/interfaces';
 import { ContentHelper } from '@tran/helpers/content/content.helper';
+import { SnackbarService } from '@tran/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
   timestampArr: ITimeContainer[] = [];
 
   acts = {
-    isRecognitionInProcess: false,
+    isRecognitionInProcess: true,
     isRecognitionProcessTitle: '',
     isAudioConverting: false,
   };
@@ -28,10 +29,13 @@ export class HomeComponent implements OnInit {
     private speechSvc: SpeechService,
     private zone: NgZone,
     private editorHlp: ContentHelper,
+    private snackbarSvc: SnackbarService,
   ) {
   }
 
   ngOnInit() {
+    this.acts.isRecognitionInProcess = true;
+    this.acts.isRecognitionProcessTitle = 'Processing';
     // if no speech service check gapi !!!
     this.speechSvc.transcription$.subscribe((subData: ITranscriptionSubject) => this.onGetData(subData));
   }
@@ -46,12 +50,18 @@ export class HomeComponent implements OnInit {
       subData.data['timestamp'].map(item => {
         this.timestampArr.push(item);
       });
-    } else {
+    } else if (subData.hasOwnProperty('data') && !subData.data) {
+      this.acts.isRecognitionInProcess = false;
       this.editorContent = '';
+      this.snackbarSvc.openErrorSnackBar('No content found for this file', 6000);
     }
-    this.zone.run(() => {
-      this.acts.isRecognitionInProcess = subData.inProcess;
-      this.acts.isRecognitionProcessTitle = subData.processTitle;
-    });
+    // this.zone.run(() => {
+    //   this.acts.isRecognitionInProcess = subData.inProcess;
+    //   this.acts.isRecognitionProcessTitle = 'Processing';
+    // });
+  }
+
+  setLoaderOff(event) {
+    this.acts.isRecognitionInProcess = event;
   }
 }

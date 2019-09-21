@@ -33,7 +33,7 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
     private fileNameHlp: FileNameHelper,
     private hotKeysHlp: HotKeysHelper,
   ) {
-    this.taskSvc.$task.pipe(untilDestroyed(this)).subscribe(task => task.media.length && this.initAudio(task.media[0]));
+    this.taskSvc.$task.pipe(untilDestroyed(this)).subscribe(task => task.media ? task.media.length && this.initAudio(task.media[0]) : null);
     this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe((media: ITaskMedia) => media && this.updFileName(media.url));
     this.playerSvc.$currentTime.pipe(untilDestroyed(this)).subscribe(sec => this.tempData.currentTime = sec);
   }

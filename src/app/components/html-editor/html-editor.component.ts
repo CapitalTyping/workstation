@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
 import impQuill from 'quill';
@@ -23,6 +23,9 @@ import { KEY_CODE } from '@utilities/const/common/key-codes.const';
 import { HotKeysHelper } from '@tran/helpers/hot-keys/hot-keys.helper';
 import { EditSpeakerComponent } from '@components/speaker/edit-speaker/edit-speaker.component';
 import { MatDialog } from '@angular/material';
+import { SpeechService } from '@tran/services/speech/speech.service';
+import { TaskService } from '@tran/services/task/task.service';
+import { SnackbarService } from '@tran/services/snackbar/snackbar.service';
 
 interface IAttribute {
   name: string,
@@ -67,10 +70,10 @@ const Support = {
   templateUrl: './html-editor.component.html',
   styleUrls: ['./html-editor.component.scss']
 })
-export class HtmlEditorComponent implements OnInit, OnDestroy {
+export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() editorContent = `<h3>Content...</h3>`;
   @Input() timestampArr: ITimeContainer[];
-
+  @Output() offloading: EventEmitter<any> = new EventEmitter();
   private quill: impQuill;
   public editorOptions: any = {
     // debug: 'info',
@@ -84,6 +87,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
         [{ 'color': [] }, { 'background': [] }],
         [{ 'font': [] }],
         [{ 'align': ['', 'center', 'right'] }],
+        ['spanblock']
       ],
       // clipboard: {},
       keyboard: {
@@ -103,7 +107,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
   private containers = [];
   private speakers: ISpeaker[] = [{ title: 'SomeName', id: '3' }];
   private isPrevKeyCodeEnter;
-
+  trackChange = 0;
   constructor(
     private el: ElementRef,
     private dialog: MatDialog,
@@ -113,16 +117,23 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
     private editorContentHlp: ContentHelper,
     private tagsSvc: TagsService,
     private hotKeysHlp: HotKeysHelper,
+    private taskSvc: TaskService,
+    private snackSvc: SnackbarService
   ) { }
 
   ngOnInit() {
-    console.log('trr', this.timestampArr);
     const Break = Quill.import('blots/break');
     Quill.register(Break);
+    // this.registerSaveButton();
     this.registerSpeaker();
     this.registerWord();
     this.createStyle();
     this.playerSvc.$currentTime.pipe(untilDestroyed(this)).subscribe(sec => this.checkIfNeedsStyle(sec));
+  }
+
+  ngAfterViewInit() {
+    this.el.nativeElement.querySelector('.ql-spanblock')
+      .addEventListener('click', this.saveContent.bind(this));
   }
 
   private createStyle(): void {
@@ -244,6 +255,61 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
     Word.blotName = WORD.BLOT_NAME;
     Word.tagName = WORD.TAG_NAME;
     Quill.register(Word);
+  }
+
+  private saveContent() {
+    alert('ss');
+    this.offloading.emit(true);
+    let staff_id, task_file_id, file_id, updatedtags, updatedsections;
+    this.taskSvc.$staff.pipe(untilDestroyed(this)).subscribe(staff => {
+      if (staff) {
+        staff_id = staff.id;
+      }
+    });
+    this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe((media: any) => {
+      if (media) {
+        task_file_id = media.task_file_id;
+        file_id = media.file_id;
+      }
+    });
+
+    let updated_by_user = false;
+    if (this.trackChange > 1) {
+      updated_by_user = true;
+    }
+
+    this.tagsSvc.$tags.pipe(untilDestroyed(this)).subscribe(tags => {
+      if (tags) {
+        updatedtags = tags;
+      }
+    });
+    this.tagsSvc.$tagsSections.pipe(untilDestroyed(this)).subscribe((sections) => {
+      updatedsections = sections;
+    });
+
+    const data = {
+      staff_id: staff_id,
+      docs: {
+        task_file_id: task_file_id,
+        file_id: file_id,
+        updated_by_user: updated_by_user,
+        params: {
+          content: this.editorContent,
+          timestamp: this.timestampArr
+        },
+        tagSection: updatedsections,
+        tags: updatedtags
+      }
+    };
+    this.taskSvc.saveTask(data).subscribe(
+      res => {
+        this.offloading.emit(false);
+        this.snackSvc.openSuccessSnackBar('Content is saved successfully');
+      },
+      err => {
+        this.offloading.emit(false);
+      }
+    );
   }
 
   /**
@@ -379,11 +445,15 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
 
   onContentChanged(attr) {
     console.log(this.editorContent);
+    this.trackChange++;
+    this.offloading.emit(false);
     // const range = this.quill.getSelection() as any;
     // const content = this.quill.getContents(range);
     // console.log(range, content);
 
   }
+
+
 
   exportData() {
     // const text = this.quill.getContents(0, this.quill.getLength());
@@ -391,6 +461,8 @@ export class HtmlEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() { }
+
+
 }
 
 // Container
