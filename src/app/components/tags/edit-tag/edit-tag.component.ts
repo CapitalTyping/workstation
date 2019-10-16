@@ -45,7 +45,9 @@ export class EditTagComponent implements OnInit {
     // upd wrapped elems styles if it has changed
     if (existedTag.textColor !== this.currTag.textColor || existedTag.fillColor !== this.currTag.fillColor) {
       const sectionIndex = this.getSectionIndex(existedTag.id);
-      this.sections[sectionIndex].segments.forEach(segm => this.tagsSvc.applyStyleToElems(segm.time, this.currTag));
+      if (this.sections[sectionIndex] && this.sections[sectionIndex].hasOwnProperty('segments')) {
+        this.sections[sectionIndex].segments.forEach(segm => this.tagsSvc.applyStyleToElems(segm.time, this.currTag));
+      }
       existedTag.textColor = this.currTag.textColor;
       existedTag.fillColor = this.currTag.fillColor;
     }

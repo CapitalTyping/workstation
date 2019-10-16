@@ -62,12 +62,12 @@ export class PlayerService {
     const currSpeed = this._player.playbackRate;
     if (isIncrease) {
       this._player.playbackRate = (currSpeed < CONST.PLAYBACK_SPEED_MAX)
-          ? +(currSpeed + CONST.PLAYBACK_SPEED_STEP).toFixed(1)
-          : CONST.PLAYBACK_SPEED_MAX;
+        ? +(currSpeed + CONST.PLAYBACK_SPEED_STEP).toFixed(1)
+        : CONST.PLAYBACK_SPEED_MAX;
     } else {
       this._player.playbackRate = (currSpeed > CONST.PLAYBACK_SPEED_MIN)
-          ? +(currSpeed - CONST.PLAYBACK_SPEED_STEP).toFixed(1)
-          : CONST.PLAYBACK_SPEED_MIN;
+        ? +(currSpeed - CONST.PLAYBACK_SPEED_STEP).toFixed(1)
+        : CONST.PLAYBACK_SPEED_MIN;
     }
   }
 

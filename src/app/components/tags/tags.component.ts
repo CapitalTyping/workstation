@@ -39,8 +39,11 @@ export class TagsComponent implements OnInit, OnDestroy {
       }
     });
     this.tagsSvc.$tagsSections.pipe(untilDestroyed(this)).subscribe((sections) => {
-      this.sections = sections;
-      console.log(this.sections);
+      if (sections && sections != null) {
+        this.sections = sections;
+      } else {
+        this.sections = [];
+      }
     });
   }
 

@@ -10,7 +10,7 @@
   <button class="tag-add-btn" mat-raised-button (click)="openEditor()">
     <mat-icon>edit</mat-icon>
   </button>
-  <button class="tag-add-btn" mat-raised-button (click)="acts.isSectionsExpand = !acts.isSectionsExpand" *ngIf="sections.length">
+  <button class="tag-add-btn" mat-raised-button (click)="acts.isSectionsExpand = !acts.isSectionsExpand" *ngIf="sections && sections.length">
     <mat-icon>{{ acts.isSectionsExpand ?'expand_less' : 'expand_more' }}</mat-icon>
   </button>
 
@@ -19,12 +19,14 @@
 
 <!-- SECTIONS -->
 <ng-container *ngIf="acts.isSectionsExpand">
-  <div *ngFor="let section of sections; let sectIndex=index">
-    <span>{{ section.tag.title }}: </span>
-    <button class="segment-btn" mat-stroked-button [style.background]="section.tag.fillColor" [style.color]="section.tag.textColor"
-      (click)="setCurrentTimeToPlayer(segment)" *ngFor="let segment of section.segments; let segmIndex=index">
-      {{ segment.content }} {{ segment.time.insert }}
-      <mat-icon (click)="removeSectionSegment(sectIndex, segmIndex, $event)">close</mat-icon>
-    </button>
+  <div *ngIf="sections && sections.length > 0">
+    <div *ngFor="let section of sections; let sectIndex=index">
+      <span>{{ section.tag.title }}: </span>
+      <button class="segment-btn" mat-stroked-button [style.background]="section.tag.fillColor" [style.color]="section.tag.textColor"
+        (click)="setCurrentTimeToPlayer(segment)" *ngFor="let segment of section.segments; let segmIndex=index">
+        {{ segment.content }} {{ segment.time.insert }}
+        <mat-icon (click)="removeSectionSegment(sectIndex, segmIndex, $event)">close</mat-icon>
+      </button>
+    </div>
   </div>
 </ng-container>

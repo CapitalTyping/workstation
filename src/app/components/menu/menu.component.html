@@ -13,8 +13,7 @@
     <!-- EXPORT -->
     <li>
       <div class="accordion-wrapp">
-        <button mat-button class="btn-accordion btn-menu"
-                (click)="onToggleAccordion('isAccord1Active')">
+        <button mat-button class="btn-accordion btn-menu" (click)="onToggleAccordion('isAccord1Active')">
           <i class="icon flaticon-download"></i>
           <span class="btn-title">Export</span>
           <mat-icon [ngClass]="{'rotate-90deg': acts.isAccord1Active}">chevron_right</mat-icon>
@@ -23,24 +22,22 @@
           <li>
             <h5 class="label">DOWNLOAD AS</h5>
           </li>
-          <li>
+          <!-- <li>
             <a>SRT file</a>
-          </li>
+          </li> -->
           <li>
-            <a>Word document</a>
+            <a (click)="exportWordFile()">Word document</a>
           </li>
-          <li>
+          <!-- <li>
             <a>PDF file</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </li>
 
     <!-- NOTES -->
     <li>
-      <button mat-button class="btn-menu"
-              [ngClass]="{'active': currContent === 'notes'}"
-              (click)="onSelectContent('notes')">
+      <button mat-button class="btn-menu" [ngClass]="{'active': currContent === 'notes'}" (click)="onSelectContent('notes')">
         <i class="icon flaticon-text-document"></i>
         <span class="btn-title">Notes</span>
       </button>
@@ -48,9 +45,7 @@
 
     <!-- MESSAGES -->
     <li>
-      <button mat-button class="btn-menu"
-              [ngClass]="{'active': currContent === 'messages'}"
-              (click)="onSelectContent('messages')">
+      <button mat-button class="btn-menu" [ngClass]="{'active': currContent === 'messages'}" (click)="onSelectContent('messages')">
         <i class="icon flaticon-chat"></i>
         <span class="btn-title">Messages</span>
       </button>
@@ -59,8 +54,7 @@
     <!-- SETTINGS -->
     <li>
       <div class="accordion-wrapp">
-        <button mat-button class="btn-accordion btn-menu"
-                (click)="onToggleAccordion('isAccord2Active')">
+        <button mat-button class="btn-accordion btn-menu" (click)="onToggleAccordion('isAccord2Active')">
           <i class="icon flaticon-settings"></i>
           <span class="btn-title">Settings</span>
           <mat-icon [ngClass]="{'rotate-90deg': acts.isAccord2Active}">chevron_right</mat-icon>

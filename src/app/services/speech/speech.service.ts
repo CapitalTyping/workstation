@@ -48,9 +48,9 @@ export class SpeechService {
   }
 
   initRecognition(media: any, recognizeType: ITaskMedia['recognizeType']) {
-    console.log(media);
+    console.log(media.updated_param);
     if (!this.isAvailable) return;
-    this.transcription$.next({ inProcess: true, data: media.params });
+    this.transcription$.next({ inProcess: true, data: media.updated_param ? media.updated_param : media.params });
     // stop previous requests
     // this._intervalId && clearInterval(this._intervalId);
     // this.updIsAvailableStatus(false);

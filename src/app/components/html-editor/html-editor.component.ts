@@ -128,10 +128,13 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     this.registerSpeaker();
     this.registerWord();
     this.createStyle();
+    this.taskSvc.$trackChange.pipe(untilDestroyed(this)).subscribe(tc => this.trackChange = tc);
     this.playerSvc.$currentTime.pipe(untilDestroyed(this)).subscribe(sec => this.checkIfNeedsStyle(sec));
   }
 
   ngAfterViewInit() {
+    console.log('created');
+
     this.el.nativeElement.querySelector('.ql-spanblock')
       .addEventListener('click', this.saveContent.bind(this));
   }
@@ -258,12 +261,20 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private saveContent() {
-    alert('ss');
     this.offloading.emit(true);
-    let staff_id, task_file_id, file_id, updatedtags, updatedsections;
+    let staff_id, admin_id, task_file_id, file_id, updatedtags, updatedsections, token;
     this.taskSvc.$staff.pipe(untilDestroyed(this)).subscribe(staff => {
       if (staff) {
         staff_id = staff.id;
+      } else {
+        staff_id = null;
+      }
+    });
+    this.taskSvc.$admin.pipe(untilDestroyed(this)).subscribe(admin => {
+      if (admin) {
+        admin_id = admin.id;
+      } else {
+        admin_id = null;
       }
     });
     this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe((media: any) => {
@@ -271,6 +282,9 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
         task_file_id = media.task_file_id;
         file_id = media.file_id;
       }
+    });
+    this.taskSvc.$token.pipe(untilDestroyed(this)).subscribe((val: any) => {
+      token = val;
     });
 
     let updated_by_user = false;
@@ -288,7 +302,9 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     const data = {
+      token: token,
       staff_id: staff_id,
+      admin_id: admin_id,
       docs: {
         task_file_id: task_file_id,
         file_id: file_id,
@@ -303,7 +319,9 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.taskSvc.saveTask(data).subscribe(
       res => {
+        this.taskSvc.$taskFileUrl.next(res['taskFileUrl']);
         this.offloading.emit(false);
+        this.taskSvc.$trackChange.next(0);
         this.snackSvc.openSuccessSnackBar('Content is saved successfully');
       },
       err => {
@@ -444,8 +462,8 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onContentChanged(attr) {
-    console.log(this.editorContent);
     this.trackChange++;
+    this.taskSvc.$trackChange.next(this.trackChange);
     this.offloading.emit(false);
     // const range = this.quill.getSelection() as any;
     // const content = this.quill.getContents(range);
@@ -460,7 +478,9 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log(text);
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+
+  }
 
 
 }

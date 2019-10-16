@@ -58,8 +58,14 @@ export class TagsService {
 
   // fetchSections(sections: ITagSection[]) {
   fetchSections(sections: any) {
+    if (sections == null) {
+      sections = [];
+    } else {
+      sections = JSON.parse(sections);
+    }
     this._sections = sections;
     this.$tagsSections.next(this._sections);
+
   }
 
   saveTagsInStore(tags: ITag[]) {

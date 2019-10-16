@@ -67,7 +67,8 @@ export class ErrorInterceptor implements HttpInterceptor {
    * @param error
    */
   handleError(error) {
-    !error.error && console.error('custom core ERROR', error);
+    !error.hasOwnProperty('error') && console.error('custom core ERROR', error);
+
 
     // if (error+'').includes('Error: Loading chunk')
     if (!window.navigator.onLine && !error.error) {

@@ -4,7 +4,6 @@ import { TaskService } from '@services/task/task.service';
 import { ConfigService } from '@services/config/config.service';
 import { TagsService } from '@tran/services/tags/tags.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
 @Component({
   selector: 'app-content-wrapper',
   templateUrl: './content-wrapper.component.html',
@@ -27,10 +26,10 @@ export class ContentWrapperComponent implements OnInit {
 
   ngOnInit(): void {
     const token = this.route.snapshot.queryParams.session_token;
-    console.log('aaa', this.route);
     if (!token) {
       this.router.navigate(['/forbidden']);
     }
+
     this.taskSvc.getTaskDetails(token).subscribe(
       res => {
         console.log(res);

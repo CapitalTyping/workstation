@@ -16,9 +16,12 @@ import { TagsService } from '../tags/tags.service';
 export class TaskService {
   $task = new BehaviorSubject<any>(this.resetMedia());
   $staff = new BehaviorSubject<any>(null);
-
+  $admin = new BehaviorSubject<any>(null);
+  $trackChange = new BehaviorSubject<any>(0);
+  $token = new BehaviorSubject<any>(0);
   private _currMedia: ITaskMedia = this.resetMedia();
   $currentMedia = new BehaviorSubject<ITaskMedia>(null);
+  $taskFileUrl = new BehaviorSubject<ITaskMedia>(null);
 
   private _isPlaylistOpened = false;
   $isPlaylistOpened = new Subject<boolean>();
@@ -38,8 +41,12 @@ export class TaskService {
       .pipe(tap(details => {
         this.$task.next(details.task);
         this.$staff.next(details.staff);
+        this.$admin.next(details.admin);
         this.tagSvc.setTags(details.tags);
+        this.$token.next(token);
+        console.log(details.task.media[0].tagSection);
         this.tagSvc.fetchSections(details.task.media[0].tagSection);
+        this.$taskFileUrl.next(details.task.media[0].taskFileUrl);
         this.selectMediaToWork(details.task.media[0]);
       }));
   }
@@ -101,6 +108,6 @@ export class TaskService {
   }
 
   saveTask(data) {
-    return this.apiSvc.post(`/save-task-details`, data);
+    return this.apiSvc.post(`/save-workstation-result`, data);
   }
 }
