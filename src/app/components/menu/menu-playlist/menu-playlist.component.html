@@ -4,7 +4,7 @@
   <li class="flex" *ngFor="let media of task.media" [ngClass]="{'current-media': media.title === currMedia.title}">
     <button mat-icon-button class="control-btn" (click)="onTogglePlay(media)">
       <!--<img class="image" src="assets/images/avatar.png" alt="play-button" *ngIf="media.title !== currMedia.title">-->
-      <mat-icon>{{ media.title !== currMedia.title || player.paused ? 'play_arrow' : 'pause' }}</mat-icon>
+      <mat-icon>{{ media.title !== currMedia.title || ispaused ? 'play_arrow' : 'pause' }}</mat-icon>
     </button>
     <!--<div class="media-avatar"><img src="assets/images/play.png" alt="play-button"></div>-->
     <div class="media-info">

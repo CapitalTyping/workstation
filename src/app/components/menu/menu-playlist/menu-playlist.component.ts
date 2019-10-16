@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, NgZone } from '@angular/core';
 import { ITask, ITaskMedia } from '@tran/interfaces';
 import { TaskService } from '@services/task/task.service';
 import { PlayerService } from '@services/player/player.service';
@@ -16,10 +16,12 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
   task: ITask;
   currMedia: ITaskMedia;
   player: HTMLMediaElement;
-
+  trackChange = null;
+  ispaused = false;
   constructor(
     private taskSvc: TaskService,
     private playerSvc: PlayerService,
+    private ngZone: NgZone
   ) {
     this.taskSvc.$task.pipe(untilDestroyed(this)).subscribe(task => this.task = task);
     this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe(media => this.currMedia = media);
@@ -30,13 +32,27 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
       // this.playerContainer.nativeElement.appendChild(player);
       this.player = player;
     });
+    this.taskSvc.$trackChange.subscribe(track => this.trackChange = track);
     console.log(this.task);
   }
 
   onTogglePlay(media: ITaskMedia) {
+    // if (this.trackChange > 1) {
+
+    // } else {
+
+    // }
     if (this.currMedia.title === media.title) {
-      this.playerSvc.togglePlay();
+      this.ngZone.run(() => {
+        this.playerSvc.togglePlay();
+        if (this.player.paused) {
+          this.ispaused = true;
+        } else {
+          this.ispaused = false;
+        }
+      });
     } else {
+      this.playerSvc.togglePlay();
       this.taskSvc.selectMediaToWork(media);
       this.playerSvc.play();
     }

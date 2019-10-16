@@ -133,7 +133,6 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log('created');
 
     this.el.nativeElement.querySelector('.ql-spanblock')
       .addEventListener('click', this.saveContent.bind(this));
@@ -159,7 +158,6 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   private checkIfNeedsStyle(sec) {
     if (sec) {
       const container: ITimeContainer = this.timestampArr[this.findIndex(this.timestampArr, sec)];
-      console.log(container);
       container && this.updHighlight(container.start, container.words[this.findIndex(container.words, sec)]);
     } else {
       this.styleElement.innerText = HIGHLIGHT.DEFAULT_CSS;
@@ -340,7 +338,7 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     const isPrevSpeaker = this.quill.getLeaf(range.index - 1)[Leaf.TEXT_BLOT].domNode.localName === SPEAKER.TAG_NAME;
     const isEndOfBlankLine = context.offset <= Support.endOfBlinkLineMaxOffset && context.prefix === ' ' && !context.suffix;
     const isTextDomNode = !context.offset && !context.prefix && !context.suffix;
-    console.log(context, this.quill.getLeaf(range.index), { isPrevSpeaker, isEndOfBlankLine, isTextDomNode });
+    // console.log(context, this.quill.getLeaf(range.index), { isPrevSpeaker, isEndOfBlankLine, isTextDomNode });
 
     if (isTextDomNode) {
       this.quill.deleteText(range.index - 1, 1);
@@ -354,7 +352,6 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     // if prev key wasn't ENTER make a new paragraph
     if (!this.isPrevKeyCodeEnter) return this.handleLineBreak(range, context);
 
-    console.log('=========speaker=====', isPrevSpeaker);
     const wordFormat = context.format[WORD.BLOT_NAME];
     this.quill.insertEmbed(range.index, SPEAKER.BLOT_NAME, { id: '1', ...wordFormat }, Quill.sources.SILENT);
     this.quill.setSelection(range.index + 1);
@@ -425,7 +422,6 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.quill.getSelection().length) {
       const range = this.quill.getSelection() as any;
       const content: IDelta = this.quill.getContents(range);
-      console.log(content);
       this.tagsSvc.setSelectedDeltaOps(content.ops);
     } else {
       this.tagsSvc.setSelectedDeltaOps([]);
@@ -450,7 +446,6 @@ export class HtmlEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onEditorBlured(quill) {
-    console.log('blur');
   }
 
   // Will emit at every click event. Same as on 'selection-change'
