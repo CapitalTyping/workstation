@@ -7,6 +7,8 @@ export interface ITaskMedia {
   recognizeType: 'long' | 'default'
   params: IRecognizeParams,
   transcription: string,
+  status_name: string,
+  status: number
 }
 
 export interface ITask {

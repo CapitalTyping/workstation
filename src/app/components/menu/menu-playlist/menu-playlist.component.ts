@@ -20,6 +20,7 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
   constructor(
     private taskSvc: TaskService,
     private playerSvc: PlayerService,
+    private snackSvc: SnackbarService
   ) {
     this.taskSvc.$task.pipe(untilDestroyed(this)).subscribe(task => this.task = task);
     this.taskSvc.$currentMedia.pipe(untilDestroyed(this)).subscribe(media => this.currMedia = media);
@@ -35,18 +36,30 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
   }
 
   onTogglePlay(media: ITaskMedia) {
-    // if (this.trackChange > 1) {
-
-    // } else {
-
-    // }
-    if (this.currMedia.title === media.title) {
-      this.playerSvc.togglePlay();
-    } else {
-      this.playerSvc.togglePlay();
-      this.taskSvc.selectMediaToWork(media);
-      this.playerSvc.play();
+    if (media.status < 5) {
+      this.snackSvc.openWarningSnackBar('File is not ready yet');
+      return false;
     }
+    if (this.trackChange > 1) {
+      if (confirm('you have not saved the update, do you want to discard the update and continue?')) {
+        if (this.currMedia.title === media.title) {
+          this.playerSvc.togglePlay();
+        } else {
+          this.playerSvc.togglePlay();
+          this.taskSvc.selectMediaToWork(media);
+          this.playerSvc.play();
+        }
+      }
+    } else {
+      if (this.currMedia.title === media.title) {
+        this.playerSvc.togglePlay();
+      } else {
+        this.playerSvc.togglePlay();
+        this.taskSvc.selectMediaToWork(media);
+        this.playerSvc.play();
+      }
+    }
+
   }
 
   getStatusClass(index) {
