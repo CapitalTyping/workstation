@@ -49,5 +49,18 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
     }
   }
 
+  getStatusClass(index) {
+    const classes = [
+      'secondary',
+      'info',
+      'primary',
+      'accent',
+      'warn',
+      'success',
+      'danger'
+    ];
+    return classes[index];
+  }
+
   ngOnDestroy() { }
 }

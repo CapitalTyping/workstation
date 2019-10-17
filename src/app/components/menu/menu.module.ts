@@ -10,10 +10,11 @@ import { MenuShortcutsComponent } from '@components/menu/menu-shortcuts/menu-sho
 import { MenuSettingsComponent } from '@components/menu/menu-settings/menu-settings.component';
 import { MenuPlaylistComponent } from '@components/menu/menu-playlist/menu-playlist.component';
 
+
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
+    SharedModule
   ],
   declarations: [
     MenuComponent,
@@ -28,4 +29,4 @@ import { MenuPlaylistComponent } from '@components/menu/menu-playlist/menu-playl
     MenuComponent
   ]
 })
-export class MenuModule {}
+export class MenuModule { }
