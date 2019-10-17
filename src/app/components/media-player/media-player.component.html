@@ -20,7 +20,9 @@
       <mat-icon>fast_rewind</mat-icon>
     </button>
     <button mat-icon-button class="control-btn" (click)="onTogglePlay()">
-      <mat-icon>{{ player.paused ? 'play_arrow' : 'pause' }}</mat-icon>
+      <!-- <mat-icon>{{ player.paused ? 'play_arrow' : 'pause' }}</mat-icon> -->
+      <mat-icon *ngIf="player.paused">play_arrow</mat-icon>
+      <mat-icon *ngIf="!player.paused">pause</mat-icon>
     </button>
     <button mat-icon-button class="control-btn" (click)="onStop()">
       <mat-icon>stop</mat-icon>

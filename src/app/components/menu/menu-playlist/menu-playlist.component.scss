@@ -16,7 +16,7 @@
       width: 60px;
       height: 60px;
       color: $base-background-color;
-      background: $highlight;
+      background: $gray;
       line-height: unset;
 
       mat-icon {
@@ -37,6 +37,10 @@
           display: none;
         }
       }
+    }
+
+    .active {
+      background: $highlight !important;    
     }
 
 
