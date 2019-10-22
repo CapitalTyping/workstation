@@ -6,7 +6,7 @@ import { PlayerService } from '@services/player/player.service';
 import { ITaskMedia } from '@tran/interfaces';
 import { FileNameHelper } from '@tran/helpers/file-name/file-name.helper';
 import { HotKeysHelper } from '@tran/helpers/hot-keys/hot-keys.helper';
-
+declare const document: any;
 @Component({
   selector: 'app-audio-player',
   templateUrl: './media-player.component.html',
@@ -14,7 +14,7 @@ import { HotKeysHelper } from '@tran/helpers/hot-keys/hot-keys.helper';
 })
 export class MediaPlayerComponent implements OnInit, OnDestroy {
   @ViewChild('playerElem') playerElem;
-  player: HTMLMediaElement;
+  player: any;
   fileName: string;
 
   tempData = {
@@ -94,6 +94,10 @@ export class MediaPlayerComponent implements OnInit, OnDestroy {
 
   onTogglePlaylist() {
     this.taskSvc.emitTogglePlaylist();
+  }
+
+  onFulScreen() {
+
   }
 
   ngOnDestroy() { }

@@ -172,4 +172,9 @@
       margin: 0;
     }
   }
+
+  video::-webkit-media-controls-fullscreen-button
+  {
+          display: none !important;
+  }
 }

@@ -44,7 +44,6 @@ export class TaskService {
         this.$admin.next(details.admin);
         this.tagSvc.setTags(details.tags);
         this.$token.next(token);
-        console.log(details.task.media[0].tagSection);
         this.tagSvc.fetchSections(details.task.media[0].tagSection);
         this.$taskFileUrl.next(details.task.media[0].taskFileUrl);
         this.selectMediaToWork(details.task.media[0]);
@@ -104,6 +103,8 @@ export class TaskService {
       recognizeType: null,
       params: null,
       transcription: null,
+      status_name: null,
+      status: null
     };
   }
 

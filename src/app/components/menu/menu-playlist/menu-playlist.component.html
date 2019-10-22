@@ -11,7 +11,8 @@
     <div class="media-info">
       <h5 class="media-title" (click)="onTogglePlay(media)">{{ media.title }}</h5>
       <span class="media-time">{{ media.duration }}
-        <button mat-raised-button [ngStyle]="{'margin-right':'50px', 'float': 'right'}" color="{{ getStatusClass(media.status) }}">Ready</button>
+        <button mat-raised-button [ngStyle]="{'margin-right':'50px', 'float': 'right'}" color="{{ getStatusClass(media.status) }}">{{
+          media.status_name }}</button>
         <span [ngStyle]="{'float':'right', 'margin-right':'5px'}" class="media-time">Status:</span>
       </span>
     </div>

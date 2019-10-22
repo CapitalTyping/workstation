@@ -31,8 +31,7 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
       // this.playerContainer.nativeElement.appendChild(player);
       this.player = player;
     });
-    this.taskSvc.$trackChange.subscribe(track => this.trackChange = track);
-    console.log(this.task);
+    this.taskSvc.$trackChange.pipe(untilDestroyed(this)).subscribe(track => this.trackChange = track);
   }
 
   onTogglePlay(media: ITaskMedia) {
@@ -40,25 +39,26 @@ export class MenuPlaylistComponent implements OnInit, OnDestroy {
       this.snackSvc.openWarningSnackBar('File is not ready yet');
       return false;
     }
-    if (this.trackChange > 1) {
-      if (confirm('you have not saved the update, do you want to discard the update and continue?')) {
-        if (this.currMedia.title === media.title) {
-          this.playerSvc.togglePlay();
-        } else {
-          this.playerSvc.togglePlay();
-          this.taskSvc.selectMediaToWork(media);
-          this.playerSvc.play();
-        }
-      }
+    if (this.currMedia.title === media.title) {
+      this.playerSvc.togglePlay();
     } else {
-      if (this.currMedia.title === media.title) {
-        this.playerSvc.togglePlay();
+      if (this.trackChange > 1) {
+        if (confirm('you have not saved the update, do you want to discard the update and continue?')) {
+          if (this.currMedia.title === media.title) {
+            this.playerSvc.togglePlay();
+          } else {
+            this.playerSvc.togglePlay();
+            this.taskSvc.selectMediaToWork(media);
+            this.playerSvc.play();
+          }
+        }
       } else {
         this.playerSvc.togglePlay();
         this.taskSvc.selectMediaToWork(media);
         this.playerSvc.play();
       }
     }
+
 
   }
 
